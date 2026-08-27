@@ -10,6 +10,19 @@ st.set_page_config(
     layout="wide",
 )
 
+# En la sección del sidebar de app.py
+with st.sidebar:
+    st.header("Configuración de Servicios")
+    fb_token = st.text_input(
+        "Meta / Facebook Access Token",
+        type="password",
+        help="Pega aquí el User Access Token obtenido de Graph API Explorer.",
+    )
+    if fb_token:
+        import config
+
+        config.FB_ACCESS_TOKEN = fb_token
+
 
 def configurar_pagina() -> None:
     """Configura el encabezado principal de la aplicación."""

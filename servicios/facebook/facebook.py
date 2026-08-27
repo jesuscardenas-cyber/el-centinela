@@ -10,7 +10,7 @@ from servicios.facebook.facebook_parser import FacebookParser
 
 class FacebookSearcher(BaseServicioBusqueda):
     """
-    Servicio de búsqueda mediante Facebook.
+    Servicio de búsqueda mediante la API de Meta Ads / Facebook.
     """
 
     @property
@@ -18,27 +18,9 @@ class FacebookSearcher(BaseServicioBusqueda):
         return "Facebook"
 
     def __init__(self) -> None:
-
         self.api = FacebookAPI()
-        self.mapper = FacebookMapper()
-        self.parser = FacebookParser()
 
-    def buscar(
-        self,
-        consulta: Consulta,
-    ) -> list[Noticia]:
-
-        datos = self.api.buscar(consulta.texto)
-
-        resultados = []
-
-        for dato in datos:
-            noticia = self.mapper.mapear(dato)
-
-            noticia.servicio = self.nombre
-            noticia.empresa = consulta.empresa
-            noticia.palabra = consulta.palabra
-
-            resultados.append(noticia)
-
-        return resultados
+    def buscar(self, consulta: Consulta, token_override: str = "") -> list[Noticia]:
+        respuesta_raw = self.api.buscar(consulta, token_override=token_override)
+        datos_limpios = FacebookParser.limpiar(respuesta_raw)
+        return FacebookMapper.convertir(datos_limpios, consulta)

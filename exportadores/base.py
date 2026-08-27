@@ -15,11 +15,9 @@ class BaseExportador(ABC):
     @abstractmethod
     def nombre(self) -> str:
         """Nombre del exportador."""
-        pass
 
     @abstractmethod
     def exportar(self, df: pd.DataFrame, destino: Path) -> Path:
         """
         Exporta un DataFrame y devuelve la ruta del archivo generado.
         """
-        pass

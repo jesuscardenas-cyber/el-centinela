@@ -1,4 +1,5 @@
 from itertools import product
+
 from modelos.consulta import Consulta
 
 
